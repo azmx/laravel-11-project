@@ -21,7 +21,7 @@
     <div class="mb-4 flex items-center justify-between">
         <a href="/admin/students/create"
             class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
-            + Add Student
+            + Add Student coi
         </a>
 
         <div class="w-full md:w-1/2">
