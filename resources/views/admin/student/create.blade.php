@@ -20,15 +20,14 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                             <option value="">Choose a grade</option>
                             @foreach ($grades as $grade)
-                            <option value="{{ $grade->id }}" data-department="{{ $grade->department->name }}">
-                                {{ $grade->nama }} ({{ $grade->department->name }})
-                            </option>
+                                <option value="{{ $grade->id }}" data-department-id="{{ $grade->department->id }}">
+                                    {{ $grade->nama }} ({{ $grade->department->name }})
+                                </option>
                             @endforeach
                         </select>
                     </div>
 
-
-
+                    <!-- Hapus bagian department_id di sini karena akan diambil dari grade -->
                     <div class="sm:col-span-2">
                         <label for="email"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
@@ -47,16 +46,18 @@
                 </div>
                 <button type="submit"
                     class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-black bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
-                    Add Student woii
+                    Add Student
                 </button>
             </form>
         </div>
-        <script>
-            document.getElementById('grade_id').addEventListener('change', function() {
-                const selectedOption = this.options[this.selectedIndex];
-                const departmentName = selectedOption.getAttribute('data-department');
-                document.getElementById('department_display').value = departmentName || '';
-            });
-            </script>
     </section>
+
+    <script>
+        // Tangani perubahan pada select grade_id untuk mengatur department_id secara otomatis
+        document.getElementById('grade_id').addEventListener('change', function() {
+            let selectedOption = this.options[this.selectedIndex];
+            let departmentId = selectedOption.getAttribute('data-department-id');
+            document.getElementById('department_id').value = departmentId;
+        });
+    </script>
 </x-layout-admin>

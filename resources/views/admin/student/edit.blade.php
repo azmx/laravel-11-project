@@ -16,18 +16,21 @@
                         <label for="grade_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Grade/Class</label>
                         <select id="grade_id" name="grade_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                             @foreach($grades as $grade)
-                                <option value="{{ $grade->id }}" {{ $student->grade_id == $grade->id ? 'selected' : '' }}>{{ $grade->nama}}</option>
+                                <option value="{{ $grade->id }}" {{ $student->grade_id == $grade->id ? 'selected' : '' }} data-department="{{ $grade->department_id }}">
+                                    {{ $grade->nama }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
 
                     <div>
                         <label for="department_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                        <select id="department_id" name="department_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                        <select id="department_id" name="department_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" disabled>
                             @foreach($departments as $department)
                                 <option value="{{ $department->id }}" {{ $student->department_id == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
                             @endforeach
                         </select>
+                        <input type="hidden" name="department_id" value="{{ $student->department_id }}">
                     </div>
 
                     <div class="sm:col-span-2">
@@ -47,4 +50,12 @@
             </form>
         </div>
     </section>
+
+    <script>
+        document.getElementById('grade_id').addEventListener('change', function() {
+            var selectedGrade = this.options[this.selectedIndex];
+            var departmentId = selectedGrade.getAttribute('data-department');
+            document.getElementById('department_id').value = departmentId;
+        });
+    </script>
 </x-layout-admin>

@@ -44,8 +44,6 @@ class StudentAdminController extends Controller
 
     public function store(Request $request)
     {
-
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'grade_id' => 'required|exists:grades,id',
@@ -53,22 +51,23 @@ class StudentAdminController extends Controller
             'address' => 'required|string|max:255',
         ]);
 
+        // Ambil department_id dari relasi grade yang dipilih
+        $grade = Grade::find($validated['grade_id']);
+        $department_id = $grade->department->id; // Mendapatkan department_id dari grade yang dipilih
+
+        // Create student dengan department_id yang sudah diambil
         $student = Student::create([
             'nama' => $validated['name'],
             'grade_id' => $validated['grade_id'],
             'email' => $validated['email'],
             'alamat' => $validated['address'],
+            'department_id' => $department_id, // Menambahkan department_id secara otomatis
         ]);
 
-         $grade = Grade::findOrFail($request->grade_id);
-        $validated['department_id'] = $grade->department_id;
-        Student::create($validated);
-
-        // Tambahkan flash message untuk notifikasi sukses
-        return redirect()
-            ->route('admin.students.index') // Ganti dengan nama route yang sesuai
-            ->with('success', 'Student created successfully!');
+        return redirect()->route('admin.students.index')
+        ->with('success', 'Student created successfully!');
     }
+
 
     public function edit(Student $student)
     {
