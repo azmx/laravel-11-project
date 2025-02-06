@@ -30,5 +30,7 @@ class DatabaseSeeder extends Seeder
         Department::factory(5)->create();
 
         Grade::factory(33)->create();
+
+        User::factory(5)->create();
     }
 }
